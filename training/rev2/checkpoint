@@ -1,0 +1,3 @@
+model_checkpoint_path: "/home/sha_maayan/busProject/training/rev2/model.ckpt-2213"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev2/model.ckpt-0"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev2/model.ckpt-2213"

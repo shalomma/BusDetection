@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/sha_maayan/busProject/training/rev5/model.ckpt-24086"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev5/model.ckpt-10233"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev5/model.ckpt-13674"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev5/model.ckpt-17159"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev5/model.ckpt-20646"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/rev5/model.ckpt-24086"
