@@ -4,8 +4,9 @@
 **/events.out*
 **/*.record*
 
-# Ignore all zip files
+# Ignore all zip and image files
 **/*.zip*
+**/*.JPG
 
 # Created by https://www.gitignore.io/api/python,windows
 
