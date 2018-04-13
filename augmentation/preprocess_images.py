@@ -7,7 +7,7 @@ from collections import namedtuple
 import glob
 
 PATH_TO_ANNO = '../annotations/'
-ANNO_TABLE = 'bus_labels.csv'
+ANNO_TABLE = 'train_labels.csv'
 PATH_TO_IMAGES = '../images/'
 PATH_TO_RESIZED_IMAGES = '../images/resized/'
 PATH_TO_AUG_IMAGES = 'images/'
@@ -78,19 +78,22 @@ def imshow_bbox(images, bboxes, head=None):
 
 
 def imresize_to_300x225(path_to_images, output_path, df):
+    
+    images = list(set(df['filename'].tolist()))
     scale_anno(df)
     H = 225
     W = 300
-    images_add = glob.glob(path_to_images + '*.JPG')
-    if images_add:
-        return
 
-    for add in images_add:
-        temp = cv.imread(add)
+    resized_images = glob.glob(output_path + '*.JPG')
+    if resized_images:
+        return
+    
+    for img in images:
+        temp = cv.imread(os.path.join(path_to_images, img))
         temp = cv.resize(temp, (W, H))
-        new_add = os.path.join(
-            output_path, 's_' + add[add.find('\\')+1:])
-        cv.imwrite(new_add, temp)
+        new_name = os.path.join(
+            output_path, 's_' + img[img.find('\\')+1:])
+        cv.imwrite(new_name, temp)
 
 
 def scale_anno(df):
@@ -197,7 +200,7 @@ def imwrite_images_to_path(images, filenames,
 
 
 def imwrite_aug_ssd(images, filenames, bboxes,
-                    output_images, output_csv=None):
+                    output_images):
     """
     1. padd augmented images and save them to disk
     2. create an annoteation DF
@@ -209,4 +212,5 @@ def imwrite_aug_ssd(images, filenames, bboxes,
     df = create_anno(images, bboxes,
                      path_to_images=output_images,
                      filenames=filenames, ssd=True)
+    
     return df
