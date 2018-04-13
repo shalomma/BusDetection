@@ -78,10 +78,14 @@ def imshow_bbox(images, bboxes, head=None):
             break
 
 
-def imresize_to_300x225(path_to_images, output_path):
+def imresize_to_300x225(path_to_images, output_path, df):
+    scale_anno(df)
     H = 225
     W = 300
     images_add = glob.glob(path_to_images + '*.JPG')
+    if images_add:
+        return
+
     for add in images_add:
         temp = cv.imread(add)
         temp = cv.resize(temp, (W, H))
@@ -91,14 +95,22 @@ def imresize_to_300x225(path_to_images, output_path):
 
 
 def scale_anno(df):
+    """
+    scale the DF to fit ssd
+    """
     H = 225
     W = 300
     Hi = 2736
     Wi = 3648
-    scale_x = lambda x: int(x*(W/Wi))
-    scale_y = lambda y: int(y*(H/Hi))
+
+    def scale_x(x):
+        return int(x*(W/Wi))
     df[['xmin', 'xmax']] = df[['xmin', 'xmax']].applymap(scale_x)
+
+    def scale_y(y):
+        return int(y*(H/Hi))
     df[['ymin', 'ymax']] = df[['ymin', 'ymax']].applymap(scale_y)
+
     df['height'] = H
     df['width'] = W
     df['filename'] = 's_' + df['filename']
@@ -107,44 +119,93 @@ def scale_anno(df):
     # return sorted(list(set(df['filename'].tolist())))
 
 
-def create_anno(filenames, bboxes, W, H, aug=False):
+def create_anno(images, bboxes, path_to_images, filenames=None, ssd=False):
+    """
+    return a DF: col[filename,w,h,class,x1,y1,x2,y2]
+    if ssd: make adjustments to fit the written images
+    """
     anno = {}
     anno['filename'] = []
+    anno['width'] = []
+    anno['height'] = []
+    anno['class'] = []
     anno['xmin'] = []
     anno['ymin'] = []
     anno['xmax'] = []
     anno['ymax'] = []
+    anno['path'] = []
 
-    if aug:
-        y_offset = 37
-        f_aug = 'aug_'
+    if filenames:
+        filenames_o = filenames
     else:
-        y_offset = 0
-        f_aug = ''
+        images_add = glob.glob(path_to_images + '*.JPG')
+        filenames_o = [s[s.find('\\')+1:] for s in images_add]
 
-    for i, (f, bb) in enumerate(zip(filenames, bboxes)):
+    for i, (f, bb, img) in enumerate(zip(filenames_o, bboxes, images)):
         for _, box in enumerate(bb.bounding_boxes):
-            anno['filename'].append(f_aug + f)
+            anno['filename'].append(f)
             anno['xmin'].append(box.x1)
-            anno['ymin'].append(box.y1 + y_offset)
+            anno['ymin'].append(box.y1)
             anno['xmax'].append(box.x2)
-            anno['ymax'].append(box.y2 + y_offset)
+            anno['ymax'].append(box.y2)
+            anno['width'].append(img.shape[1])
+            anno['height'].append(img.shape[0])
+            anno['path'].append(path_to_images)
+            anno['class'].append('bus')
 
     df = pd.DataFrame(anno)
-    df.insert(1, 'width', W)
-    df.insert(2, 'height', H)
-    df.insert(3, 'class', 'bus')
+    if ssd:
+        df['width'] = 300
+        df['height'] = 300
+
+        def scale_y(y):
+            return int(y + 37)
+        df[['ymin', 'ymax']] = df[['ymin', 'ymax']].applymap(scale_y)
+
+        def prefix_aug(f):
+            return str('aug_' + f)
+        df[['filename']] = df[['filename']].applymap(prefix_aug)
+
+    df = df[['filename', 'width', 'height', 'class',
+            'xmin', 'ymin', 'xmax', 'ymax', 'path']]
 
     return df
 
 
-def imwrite_aug_ssd(images_aug, filenames, output_path):
+def imwrite_images_to_path(images, filenames, output_path, ssd=False):
     """
     write augmeted images to output_path
     add zero padding to fit H=300
     """
-    for i, (filename, image_after) in enumerate(zip(filenames, images_aug)):
-        temp = cv.copyMakeBorder(image_after,37,38,0,0,cv.BORDER_CONSTANT)
+    if ssd:
+        top_offset = 37
+        bottom_offset = 38
+        prefix_aug = 'aug_'
+    else:
+        top_offset = 0
+        bottom_offset = 0
+        prefix_aug = ''
+
+    filenames = [prefix_aug + f for f in filenames]
+    for i, (filename, img) in enumerate(zip(filenames, images)):
+        temp = cv.copyMakeBorder(img, top_offset, bottom_offset,
+                                 0, 0, cv.BORDER_CONSTANT)
         temp = cv.cvtColor(temp, cv.COLOR_BGR2RGB)
-        file = os.path.join(PATH_TO_AUG_IMAGES, 'aug_' + filename)
+        file = os.path.join(PATH_TO_AUG_IMAGES, filename)
         cv.imwrite(file, temp)
+
+
+def imwrite_aug_ssd(images, filenames, bboxes,
+                    output_images, output_csv=None):
+    """
+    1. padd augmented images and save them to disk
+    2. create an annoteation DF
+    3. save DF to a csv file
+    """
+
+    imwrite_images_to_path(images, filenames,
+                           output_path=output_images, ssd=True)
+    df = create_anno(images, bboxes,
+                     path_to_images=output_images,
+                     filenames=filenames, ssd=True)
+    return df
