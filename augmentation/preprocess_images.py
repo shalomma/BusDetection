@@ -1,5 +1,4 @@
 import imgaug as ia
-import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
@@ -142,6 +141,7 @@ def create_anno(images, bboxes, path_to_images, filenames=None, ssd=False):
         filenames_o = [s[s.find('\\')+1:] for s in images_add]
 
     for i, (f, bb, img) in enumerate(zip(filenames_o, bboxes, images)):
+        bb = bb.remove_out_of_image().cut_out_of_image()
         for _, box in enumerate(bb.bounding_boxes):
             anno['filename'].append(f)
             anno['xmin'].append(box.x1)
@@ -172,7 +172,8 @@ def create_anno(images, bboxes, path_to_images, filenames=None, ssd=False):
     return df
 
 
-def imwrite_images_to_path(images, filenames, output_path, ssd=False):
+def imwrite_images_to_path(images, filenames,
+                           output_path=PATH_TO_AUG_IMAGES, ssd=False):
     """
     write augmeted images to output_path
     add zero padding to fit H=300
@@ -191,7 +192,7 @@ def imwrite_images_to_path(images, filenames, output_path, ssd=False):
         temp = cv.copyMakeBorder(img, top_offset, bottom_offset,
                                  0, 0, cv.BORDER_CONSTANT)
         temp = cv.cvtColor(temp, cv.COLOR_BGR2RGB)
-        file = os.path.join(PATH_TO_AUG_IMAGES, filename)
+        file = os.path.join(output_path, filename)
         cv.imwrite(file, temp)
 
 
