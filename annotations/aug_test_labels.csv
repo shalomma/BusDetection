@@ -1,0 +1,11 @@
+filename,width,height,class,xmin,ymin,xmax,ymax,path
+aug_0_s_DSCF1029.JPG,300,300,bus,10,172,115,232,images/test/
+aug_0_s_DSCF1029.JPG,300,300,bus,119,125,212,194,images/test/
+aug_0_s_DSCF1029.JPG,300,300,bus,209,104,296,171,images/test/
+aug_0_s_DSCF1142.JPG,300,300,bus,75,135,148,167,images/test/
+aug_0_s_DSCF1142.JPG,300,300,bus,165,136,237,168,images/test/
+aug_0_s_DSCF1025.JPG,300,300,bus,81,166,183,224,images/test/
+aug_0_s_DSCF1120.JPG,300,300,bus,101,141,210,199,images/test/
+aug_0_s_DSCF1105.JPG,300,300,bus,89,120,197,182,images/test/
+aug_0_s_DSCF1015.JPG,300,300,bus,52,147,149,220,images/test/
+aug_0_s_DSCF1015.JPG,300,300,bus,168,121,261,181,images/test/
