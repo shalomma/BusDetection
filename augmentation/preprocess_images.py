@@ -78,7 +78,7 @@ def imshow_bbox(images, bboxes, head=None):
 
 
 def imresize_to_300x225(path_to_images, output_path, df):
-    
+
     images = list(set(df['filename'].tolist()))
     scale_anno(df)
     H = 225
@@ -87,7 +87,7 @@ def imresize_to_300x225(path_to_images, output_path, df):
     resized_images = glob.glob(output_path + '*.JPG')
     if resized_images:
         return
-    
+
     for img in images:
         temp = cv.imread(os.path.join(path_to_images, img))
         temp = cv.resize(temp, (W, H))
@@ -200,7 +200,7 @@ def imwrite_images_to_path(images, filenames,
 
 
 def imwrite_aug_ssd(images, filenames, bboxes,
-                    output_images):
+                    output_images, pad_to_300=False):
     """
     1. padd augmented images and save them to disk
     2. create an annoteation DF
@@ -208,9 +208,9 @@ def imwrite_aug_ssd(images, filenames, bboxes,
     """
 
     imwrite_images_to_path(images, filenames,
-                           output_path=output_images, ssd=True)
+                           output_path=output_images, ssd=pad_to_300)
     df = create_anno(images, bboxes,
                      path_to_images=output_images,
-                     filenames=filenames, ssd=True)
-    
+                     filenames=filenames, ssd=pad_to_300)
+
     return df
