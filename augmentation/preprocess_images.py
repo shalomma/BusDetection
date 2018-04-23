@@ -13,13 +13,11 @@ PATH_TO_RESIZED_IMAGES = '../images/resized/'
 PATH_TO_AUG_IMAGES = 'images/'
 
 
-def get_images_bboxes(df=None, path_to_images=None, head=None):
+def get_images_bboxes(df=None, path_to_images=PATH_TO_AUG_IMAGES, head=None):
     """
     the function get a list of images and bboxes
     and print them side by side
     """
-    if not path_to_images:
-        path_to_images = PATH_TO_AUG_IMAGES
 
     # make a list of subgroups, each subgroup is of one file
     data = namedtuple('data', ['file', 'object'])

@@ -8,6 +8,10 @@
 **/*.zip*
 **/*.JPG
 
+# Ignore TFrecords dir
+TFrecords/*
+
+
 # Created by https://www.gitignore.io/api/python,windows
 
 ### Python ###
