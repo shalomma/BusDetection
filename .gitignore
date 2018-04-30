@@ -3,6 +3,9 @@
 **/model.ckpt*
 **/events.out*
 **/*.record*
+# ignore color detection graphs and weights
+**/color_detection/Graph/*
+**/color_detection/weights/*
 
 # Ignore all zip and image files
 **/*.zip*
