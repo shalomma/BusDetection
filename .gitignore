@@ -11,6 +11,9 @@
 **/*.zip*
 **/*.JPG
 
+# ignore all graphs
+**/*.pb
+
 # Ignore TFrecords dir
 TFrecords/*
 
