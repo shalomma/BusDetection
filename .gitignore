@@ -9,6 +9,7 @@
 
 # Ignore all zip and image files
 **/*.zip*
+**/*.tar*
 **/*.JPG
 
 # ignore all graphs
