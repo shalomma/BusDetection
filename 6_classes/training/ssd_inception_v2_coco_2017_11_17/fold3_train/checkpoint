@@ -1,6 +1,0 @@
-model_checkpoint_path: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-30978"
-all_model_checkpoint_paths: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-28919"
-all_model_checkpoint_paths: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-29434"
-all_model_checkpoint_paths: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-29948"
-all_model_checkpoint_paths: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-30463"
-all_model_checkpoint_paths: "/home/sha_maayan/busProject/6_classes/training/ssd_inception_v2_coco_2017_11_17/fold3_train/model.ckpt-30978"
