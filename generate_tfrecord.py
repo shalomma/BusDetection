@@ -1,11 +1,7 @@
 """
 Usage:
-  # From tensorflow/models/
-  # Create train data:
-  python generate_tfrecord.py --csv_input=data/train_labels.csv --output_path=train.record --images_path=
-
-  # Create test data:
-  python generate_tfrecord.py --csv_input=data/test_labels.csv --output_path=test.record --images_path=
+  # Create record file:
+  python generate_tfrecord.py --csv_input=<csv_file> --output_path=train.record --images_path=
 """
 from __future__ import division
 from __future__ import print_function
@@ -29,10 +25,7 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'bus':
-        return 1
-    else:
-        None
+    return int(row_label)
 
 
 def split(df, group):
@@ -49,7 +42,7 @@ def create_tf_example(group, path):
     width, height = image.size
 
     filename = group.filename.encode('utf8')
-    image_format = b'jpg'
+    image_format = b'JPG'
     xmins = []
     xmaxs = []
     ymins = []
@@ -62,7 +55,7 @@ def create_tf_example(group, path):
         xmaxs.append(row['xmax'] / width)
         ymins.append(row['ymin'] / height)
         ymaxs.append(row['ymax'] / height)
-        classes_text.append(row['class'].encode('utf8'))
+        classes_text.append(str(row['class']).encode('utf8'))
         classes.append(class_text_to_int(row['class']))
 
     tf_example = tf.train.Example(features=tf.train.Features(feature={
