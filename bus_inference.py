@@ -10,17 +10,17 @@ PATH_TO_IMAGES = './images/ssd_resized/'
 MODEL_PATH = './models/ssd/all/rev2/'
 
 def run_inference(images_path=PATH_TO_IMAGES, model_path=MODEL_PATH):
-
-    # test reseized images
-    test_images = glob.glob(images_path + '*JPG')
-    N = len(test_images)
-    Wr, Hr = 300, 225   # resized shape
-    W, H = 3648, 2736
+    
     NUM_CLASSES = 6
 
-    # load test images
+    # images 
+    test_images = glob.glob(images_path + '*JPG')
+    N = len(test_images)
+    W, H = 3648, 2736
+
+    # load and resize test images
     input_images = []
-    print_only = 2
+    Wr, Hr = 300, 225   # resize shape
     for path in test_images:
         image = cv.imread(path)
         image = cv.resize(image, (Wr, Hr), interpolation=cv.INTER_AREA)

@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-35728"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-31931"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-32887"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-33848"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-34770"
+all_model_checkpoint_paths: "/home/sha_maayan/busProject/training/ssd/fold4/train/model.ckpt-35728"

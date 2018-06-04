@@ -12,6 +12,7 @@ PATH_TO_IMAGES = '../images/'
 PATH_TO_RESIZED_IMAGES = '../images/resized/'
 PATH_TO_AUG_IMAGES = 'images/'
 
+IMAGE_SIZE = (12, 8)
 
 def get_images_bboxes(df=None, path_to_images=PATH_TO_AUG_IMAGES, head=None):
     """
@@ -63,18 +64,23 @@ def get_images_bboxes(df=None, path_to_images=PATH_TO_AUG_IMAGES, head=None):
     return filenames, images, bboxes, classes
 
 
-def imshow_bbox(images, bboxes, head=None):
+def imshow_bbox(images, bboxes, classes, head=None):
     """
     plot images with bboxes
     """
     GREEN = [0, 255, 0]
-    color = GREEN
+    YELLOW = [255, 140, 0]
+    RED = [255, 0, 0]
+    WHITE = [255, 255, 255]
+    BLUE = [0, 0, 255]
+    GRAY = [192,192,192]
+    colors = [GREEN, YELLOW, WHITE, GRAY, BLUE, RED]
 
-    for i, (img, bb) in enumerate(zip(images, bboxes)):
-        bboxes_cut = bb.remove_out_of_image().cut_out_of_image()
-        image_bbox = bboxes_cut.draw_on_image(img, thickness=2, color=color)
-        plt.figure()
-        plt.imshow(image_bbox)
+    for i, (img, bbs, cl) in enumerate(zip(images, bboxes, classes)):
+        for j, bb in enumerate(bbs.bounding_boxes):
+            img = bb.draw_on_image(img, thickness=20, color=colors[cl[j]-1])
+        plt.figure(figsize=IMAGE_SIZE)
+        plt.imshow(img)
         if head and (i+1 == head):
             break
 
