@@ -1,0 +1,13 @@
+anchor_generator {
+      ssd_anchor_generator {
+        num_layers: 6
+        min_scale: 0.05
+        max_scale: 0.7
+        aspect_ratios: 1.0
+        aspect_ratios: 2.0
+        aspect_ratios: 1.5
+        aspect_ratios: 3.0
+        aspect_ratios: 2.5
+        reduce_boxes_in_lowest_layer: true
+      }
+    }

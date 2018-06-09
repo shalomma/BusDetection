@@ -56,7 +56,7 @@ def run_inference(images_path=PATH_TO_IMAGES, model_path=MODEL_PATH):
 
 
     # create annotation file in the define format
-    anno_filename = 'annotationsTest.txt'
+    anno_filename = 'predictions.txt'
     anno_file = open(anno_filename, 'w')
 
     # parse each detection to a line and write to file
